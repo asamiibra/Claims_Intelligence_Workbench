@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Assessment, DamagedPart, CostBreakdownEntry } from "../../../types/assessment";
+import type {
+  Assessment,
+  DamagedPart,
+  CostBreakdownEntry,
+} from "../../../types/assessment";
 
 export async function POST(req: NextRequest) {
+  // Simulate realistic model latency
   await new Promise((resolve) => setTimeout(resolve, 2500));
 
   const body = await req.json();
   const photos: string[] = body.photos || [];
+
   const complexity = photos.length;
 
   let damaged_parts: DamagedPart[];

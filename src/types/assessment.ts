@@ -1,26 +1,16 @@
-// Shared domain types for the workbench
+// src/types/assessment.ts
 
-export type Claim = {
-    id: string;
-    policyNumber: string;
-    name: string;
-    description: string;
-  };
-  
-  export type DamagedPart = {
+export type DamagedPart = {
     part_label: string;
     severity: string;
-    confidence: number; // 0–1
+    confidence: number;
     estimated_cost_min: number;
     estimated_cost_max: number;
-    overridden?: boolean;
-    override_reason?: string;
   };
   
-  export type AssessmentMeta = {
-    model_version: string;
-    processing_time_ms: number;
-    timestamp: string;
+  export type CostBreakdownEntry = {
+    label: string;
+    details?: string[];
   };
   
   export type Assessment = {
@@ -34,8 +24,11 @@ export type Claim = {
     };
     flags: string[];
     image_quality?: string[];
-    risk_flags?: string[];
-    cost_breakdown?: string;
-    _meta?: AssessmentMeta;
+    cost_breakdown?: CostBreakdownEntry[];
+    _meta?: {
+      model_version: string;
+      processing_time_ms: number;
+      timestamp: string;
+    };
   };
   

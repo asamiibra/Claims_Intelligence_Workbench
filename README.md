@@ -11,7 +11,7 @@
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [Problem Statement](#-problem-statement)
 - [Product Vision](#-product-vision)
@@ -48,7 +48,7 @@ A large share of personal auto claims (60-70%) are **low-severity physical damag
 
 ---
 
-## 🌟 Product Vision
+##  Product Vision
 
 **We reduce the cost and time of handling routine auto damage claims** by providing adjusters with an AI-generated first-pass estimate that they can verify, correct, or escalate.
 
@@ -62,7 +62,7 @@ A large share of personal auto claims (60-70%) are **low-severity physical damag
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 ### F1: AI Draft Estimate
 **User Value**: Cuts time spent manually reviewing photos and keying line items  

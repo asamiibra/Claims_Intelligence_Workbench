@@ -88,29 +88,6 @@ Claims Intelligence Workbench is a modern, AI-powered platform designed for insu
 
 ---
 
-## 📸 Screenshots
-
-<div align="center">
-
-### Main Workbench
-![Claims Workbench](docs/screenshots/main-workbench.png)
-
-*Complete workflow from photo upload to decision*
-
-### Override Modal
-![Override Modal](docs/screenshots/override-modal.png)
-
-*Adjust AI estimates with full delta tracking*
-
-### Photo Quality Check
-![Photo Quality](docs/screenshots/photo-quality.png)
-
-*Automated image quality analysis*
-
-</div>
-
----
-
 ## 🛠️ Tech Stack
 
 ### Frontend

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Info } from "lucide-react";
 import {
   Assessment,
@@ -56,6 +56,9 @@ interface AssessmentPanelProps {
   ) => void;
   onAddPart?: (part: DamagedPart) => void;
   onRemovePart?: (index: number) => void;
+  // NEW: Allow parent to control which part is being edited
+  editingIndex?: number | null;
+  onEditingIndexChange?: (index: number | null) => void;
 }
 
 // ============================================================================
@@ -74,10 +77,28 @@ export default function AssessmentPanel({
   onOverride,
   onAddPart,
   onRemovePart,
+  editingIndex: externalEditingIndex,
+  onEditingIndexChange,
 }: AssessmentPanelProps) {
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  // Use external editingIndex if provided, otherwise use internal state
+  const [internalEditingIndex, setInternalEditingIndex] = useState<number | null>(null);
+  const editingIndex = externalEditingIndex !== undefined ? externalEditingIndex : internalEditingIndex;
+  
   const [editForm, setEditForm] = useState<DamagedPart | null>(null);
   const [overrideNotes, setOverrideNotes] = useState("");
+
+  // Sync with external control
+  useEffect(() => {
+    if (editingIndex !== null && assessment) {
+      const part = assessment.damaged_parts[editingIndex];
+      if (part) {
+        setEditForm({ ...part });
+      }
+    } else {
+      setEditForm(null);
+      setOverrideNotes("");
+    }
+  }, [editingIndex, assessment]);
 
   // Totals (recomputed from damaged_parts to stay in sync with overrides)
   const totals = useMemo(() => {
@@ -100,9 +121,13 @@ export default function AssessmentPanel({
     if (!assessment) return;
     const part = assessment.damaged_parts[index];
     if (!part) return;
-    setEditForm({ ...part });
-    setEditingIndex(index);
-    setOverrideNotes("");
+    
+    // Use callback if provided, otherwise use internal state
+    if (onEditingIndexChange) {
+      onEditingIndexChange(index);
+    } else {
+      setInternalEditingIndex(index);
+    }
   };
 
   const validateEditForm = (): string | null => {
@@ -167,13 +192,23 @@ export default function AssessmentPanel({
     };
 
     onOverride(editingIndex, editForm, metadata);
-    setEditingIndex(null);
+    
+    // Close the modal
+    if (onEditingIndexChange) {
+      onEditingIndexChange(null);
+    } else {
+      setInternalEditingIndex(null);
+    }
     setEditForm(null);
     setOverrideNotes("");
   };
 
   const cancelOverride = () => {
-    setEditingIndex(null);
+    if (onEditingIndexChange) {
+      onEditingIndexChange(null);
+    } else {
+      setInternalEditingIndex(null);
+    }
     setEditForm(null);
     setOverrideNotes("");
   };
